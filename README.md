@@ -25,7 +25,6 @@
     - **Mandela** - Getting together in Remo and coding whatever we need for that given day, together, should set us up for success, and should also be able to get out ahead of what is due for each upcoming day. 
     - **Nicholas** - 
 
-
 ----------------------------
 
 ### Conflict Plan
