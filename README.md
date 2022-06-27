@@ -8,22 +8,22 @@
     - **Anthony** - 
     - **Isaiah** - I've been practicing with CSS, I'm no expert but I am more comfortable with it.  I'm good with JS and HTML and am willing to pick up any portion of the project.
     - **Mandela** -
-    - **Nicholas** - Although I can do HTML and CSS I am most comfortable working in javascript. It is the language where I have the most practice and enjoy the most.
+    - **Nicholas** - Although I can do HTML and CSS I am most comfortable working in javascript. It's the language where I have the most practice and enjoy the most.
 - How can you best utilize these strengths in the execution of your project?
     - **Anthony** - 
     - **Isaiah** - We'll be able to divide and conquer more effectively within our team.
     - **Mandela** -
-    - **Nicholas** - With a good understanding of JS we can come up with a great plan/design before we start. 
+    - **Nicholas** - With a good understanding of JS we can come up with a great plan/design before we start.  
 - In which professional competencies do you each want to develop greater strength?
     - **Anthony** - 
     - **Isaiah** - I'd like to be stronger with JS and CSS primarily.
     - **Mandela** -
-    - **Nicholas** - I want to get some experience working as a group on the same project.
+    - **Nicholas** - I want to get some experience working as a group on the same project. 
 - Knowing that every person in your team needs to understand all aspects of the project, how do you plan to approach the day-to-day work?
     - **Anthony** - 
     - **Isaiah** - I think staying on together and working on small features individually that we regularly push together would keep us all up to date.
     - **Mandela** -
-    - **Nicholas** - I think the meeting in the morning will help keep us organized, as well as having a solid plan at the start.
+    - **Nicholas** - I think the meeting in the morning will help keep us organized, as well as having a solid plan at the start. 
 
 
 ----------------------------
