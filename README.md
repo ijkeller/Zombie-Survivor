@@ -105,6 +105,27 @@ Reminder as you work on and practice your presentations:
         - answer
 
 
+### Wireframe
+
+![Wireframe](./assets/Nameless%20Zombie%20Game%20Whiteboard.png)
+
+
+
+
+
+
+
+
+
+
+
+### Assets
+
+- []()
+- []()
+- []()
+- []()
+
 ### User stories
 
 1. Attack
