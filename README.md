@@ -105,4 +105,30 @@ Reminder as you work on and practice your presentations:
         - answer
 
 
+### User stories
 
+1. Attack
+2. Player wants to attack zombie
+3. 
+- play attack animation/visual
+- attack zombie and remove zombie
+4. 
+- checks to make sure player is in range
+- checks to make sure player is facing correct direction
+
+1. Move
+2. Player wants to run from zombie
+3.
+- change visual location of player
+- change data location of player
+4. 
+- make sure player is facing a valid location to move
+
+1. scoring
+2. Player wants to see how well they are doing
+3. 
+ - show current score during gameplay
+ - show highest score saved after death
+4. 
+ - increment score during gameplay and update display
+ - update high score with new high score after death
