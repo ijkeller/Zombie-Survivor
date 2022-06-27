@@ -5,22 +5,22 @@
 ### Cooperation Plan
 
 - What are the key strengths of each person on the team?
-    - **Anthony** - 
+    - **Anthony** - I have a cursory knowledge of what this class entails, as I am repeating it. I can help everyone learn from my past work, while also showing my knowledge of JS and HTML. 
     - **Isaiah** - I've been practicing with CSS, I'm no expert but I am more comfortable with it.  I'm good with JS and HTML and am willing to pick up any portion of the project.
     - **Mandela** -
     - **Nicholas** - 
 - How can you best utilize these strengths in the execution of your project?
-    - **Anthony** - 
+    - **Anthony** - Making sure everyone feels comfortable with their work and direction, while assisting each other with our strengths/weaknesses. 
     - **Isaiah** - We'll be able to devide and conquer more effectively within our team.
     - **Mandela** -
     - **Nicholas** - 
 - In which professional competencies do you each want to develop greater strength?
-    - **Anthony** - 
+    - **Anthony** - I REALLY want to be a subject matter EXPERT. I feel as though coming through for a second time should make everything stick and allow me to feel confident in my ability. I want to assist everyone with their journey, seeing as mine was so arduous. 
     - **Isaiah** - I'd like to be stronger with JS and CSS primarily.
     - **Mandela** -
     - **Nicholas** - 
 - Knowing that every person in your team needs to understand all aspects of the project, how do you plan to approach the day-to-day work?
-    - **Anthony** - 
+    - **Anthony** - Merge parties in the morning, while reviewing the previous days work. Then allowing anyone who had difficulty to get assistance if they haven't as of yet. 
     - **Isaiah** - I think staying on together and working on small features individually that we regularly push together would keep us all up to date.
     - **Mandela** -
     - **Nicholas** - 
