@@ -23,7 +23,7 @@
     - **Anthony** - 
     - **Isaiah** - I think staying on together and working on small features individually that we regularly push together would keep us all up to date.
     - **Mandela** -
-    - **Nicholas** - I think the meeting in the morning will help keep us organized, as well as having a solid plan at the start.
+    - **Nicholas** - I think the meeting in the morning will help keep us organized, as well as having a solid plan at the start. 
 
 
 ----------------------------
