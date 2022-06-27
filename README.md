@@ -7,24 +7,23 @@
 - What are the key strengths of each person on the team?
     - **Anthony** - 
     - **Isaiah** - I've been practicing with CSS, I'm no expert but I am more comfortable with it.  I'm good with JS and HTML and am willing to pick up any portion of the project.
-    - **Mandela** -
+    - **Mandela** - Working with the team and helping to build consensus.
     - **Nicholas** - Although I can do HTML and CSS I am most comfortable working in javascript. It's the language where I have the most practice and enjoy the most.
 - How can you best utilize these strengths in the execution of your project?
     - **Anthony** - 
-    - **Isaiah** - We'll be able to divide and conquer more effectively within our team.
-    - **Mandela** -
-    - **Nicholas** - With a good understanding of JS we can come up with a great plan/design before we start.  
+    - **Isaiah** - We'll be able to devide and conquer more effectively within our team.
+    - **Mandela** - Helping the team to build consensus on tye type of project to build and what type of functionality we can put together. 
+    - **Nicholas** - With a good understanding of JS we can come up with a great plan/design before we start. 
 - In which professional competencies do you each want to develop greater strength?
     - **Anthony** - 
     - **Isaiah** - I'd like to be stronger with JS and CSS primarily.
-    - **Mandela** -
+    - **Mandela** - Preparation so I can be a better asset to our team 
     - **Nicholas** - I want to get some experience working as a group on the same project. 
 - Knowing that every person in your team needs to understand all aspects of the project, how do you plan to approach the day-to-day work?
     - **Anthony** - 
     - **Isaiah** - I think staying on together and working on small features individually that we regularly push together would keep us all up to date.
-    - **Mandela** -
-    - **Nicholas** - I think the meeting in the morning will help keep us organized, as well as having a solid plan at the start. 
-
+    - **Mandela** - Getting together in Remo and coding whatever we need for that given day, together, should set us up for success, and should also be able to get out ahead of what is due for each upcoming day. 
+    - **Nicholas** - I think the meeting in the morning will help keep us organized, as well as having a solid plan at the start.
 
 ----------------------------
 
