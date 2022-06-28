@@ -111,9 +111,9 @@ Reminder as you work on and practice your presentations:
 
 
 
+### Domain modeling
 
-
-
+![Domain Modeling](./assets/Domain%20Modeling.png)
 
 
 
