@@ -1,103 +1,97 @@
-//dimensions of the board.
-const boardXSize = 10;
-const boardYSize = 10;
+'use strict';
 
-let gameBoard = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]];
+let scale = 1;
+
+// player sprite
+// let height = 64;
+// let width = 64;
+// let moveSet = 8;
+
+// let up = 8;
+// let left = 9;
+// let down = 10;
+// let right = 11;
+
+// player swing sprite 192*192, positions 8 - 11, array 0-5, frameRate
+let height = 192;
+let width = 192;
+
+let up = 7;
+let left = 8;
+let down = 9;
+let right = 10;
+
+let moveSet = down;
 
 
-function checkBounds(x, y)
-//returns false if coordinates are outside gameboard bounds
-{
-  x++;
-  y++;
-  if (x >= boardXSize || x < 0) {
-    return false;
-  }
-  if (y >= boardYSize || y < 0) {
-    return false;
-  }
-  else {
-    return true;
-  }
+// zombie 1-6 size
+// let width = 46;
+// let height = 36;
+
+// zombie 7 size
+// let height = 64;
+// let width = 64;
+
+const scaledWidth = scale * width;
+const scaledHeight = scale * height;
+
+let xlocation = 0;
+let ylocation = 0;
+
+const cycleLoop = [0, 1, 2, 3, 4, 5]
+let currentLoopIndex = 0;
+let frameCount = 0;
+// let down = 0;
+// let right = 1;
+// let up = 2;
+// let left = 3;
+let currentDirection = right;
+
+let zombie1 = './assets/Zombies/zombie1.png'
+let zombie2 = './assets/Zombies/zombie2.png'
+let zombie3 = './assets/Zombies/zombie3.png'
+let zombie4 = './assets/Zombies/zombie4.png'
+let zombie5 = './assets/Zombies/zombie5.png'
+let zombie6 = './assets/Zombies/zombie6.png'
+let zombie7 = './assets/Zombies/zombie7.png'
+let playerSprite = './assets/generated1.png'
+
+let img = new Image();
+img.src = playerSprite;
+img.onload = function() {
+    init();
+} 
+
+let canvas = document.querySelector('canvas');
+let ctx = canvas.getContext('2d');
+
+
+function drawFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(img,
+        frameX * width, frameY * height, width, height,
+        canvasX, canvasY, scaledWidth, scaledHeight);
 }
 
-function getAdjacent(x, y)
-// returns an array that contains x and y positions of the item and the item value;
-//format:[x,y,itemValue]
-{
-  x++;
-  y++;
-  let foundItem = [0, 0, 0];
-  if (checkBounds(x, y) && gameBoard[x + 1][y] !== null || gameBoard[x + 1][y] !== 0) {
-    foundItem = [(x + 1), y, gameBoard[x + 1][y]];
-    return foundItem;
-  }
-  if (checkBounds(x, y) && gameBoard[x][y + 1] !== null || gameBoard[x][y + 1] !== 0) {
-    foundItem = [x, (y + 1), gameBoard[x][y + 1]];
-    return foundItem;
-  }
-  if (checkBounds(x, y) && gameBoard[x - 1][y] !== null || gameBoard[x - 1][y] !== 0) {
-    foundItem = [(x - 1), y, gameBoard[x - 1][y]];
-    return foundItem;
-  }
-  if (checkBounds(x, y) && gameBoard[x][y - 1] !== null || gameBoard[x][y - 1] !== 0) {
-    foundItem = [x, (y - 1), gameBoard[x][y - 1]];
-    return foundItem;
-  }
+function init() {
+    window.requestAnimationFrame(step);
 }
 
-function getInFront(x, y, direction)
-//returns item in front of xy coordinates in the direction
-{
-  x++;
-  y++;
-  let foundItem = [0, 0, 0];
-  switch (direction) {
-    case 'n':
-    case 'N':
-      {
-        if (checkBounds(x, y - 1)) {
-          foundItem = [x, y - 1, gameBoard[x][y - 1]]
-        }
-        break;
-      }
-    case 's':
-    case 'S':
-      {
-        if (checkBounds(x, y + 1)) {
-          foundItem = [x, y + 1, gameBoard[x][y + 1]]
-        }
-        break;
-      }
-    case 'e':
-    case 'E':
-      {
-        if (checkBounds(x - 1, y)) {
-          foundItem = [x - 1, y, gameBoard[x - 1][y]]
-        }
-        break;
-      }
-    case 'w':
-    case 'W':
-      {
-        if (checkBounds(x + 1, y)) {
-          foundItem = [x + 1, y, gameBoard[x + 1][y]]
-        }
-        break;
-      }
-  }
-  return foundItem;
-}
-function clearCell(x,y)
-{
-  gameBoard[x][y] = 0;
-}
-function swapCells(x1,y1,x2,y2)
-{
-  let temp = gameBoard[x1][y1];
-  gameBoard[x1][y1] = gameBoard[x2][y2];
-  gameBoard[x2][y2] = gameBoard[x1][y1];
+function step() {
+    frameCount++;
+    if (frameCount < 20) {
+        window.requestAnimationFrame(step);
+        return;
+    }
+    frameCount = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawFrame(cycleLoop[currentLoopIndex], moveSet, xlocation, ylocation);
+    currentLoopIndex++;
+    if (currentLoopIndex >= cycleLoop.length) {
+        currentLoopIndex = 0;
+    }
+
+    window.requestAnimationFrame(step);
 }
 
-console.log(getInFront(0, 0, 's'));
-console.log(gameBoard);
+
+
