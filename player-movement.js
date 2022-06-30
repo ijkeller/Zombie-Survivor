@@ -80,49 +80,49 @@ function keyUpListener(event) {
 function gameLoop() {
 
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // if (swing) {
-    //     ctx.clearRect(xPosition - 96, yPosition - 96, width, height);
-    // } else {
-    //     ctx.clearRect(xPosition - 32, yPosition - 32, width, height);
-    // }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // if (swing) {
+  //     ctx.clearRect(xPosition - 96, yPosition - 96, width, height);
+  // } else {
+  //     ctx.clearRect(xPosition - 32, yPosition - 32, width, height);
+  // }
 
-    let hasMoved = false;
+  let hasMoved = false;
 
-    if (keyPresses.f) {
-        counter = 0;
-        counter++;
-        if (counter > 4) {
-            return;
-        }
-        hasMoved = false;
-        keyPresses = {};
-        scale = swingScale;
-        width = swingWidth;
-        height = swingHeight;
-        currentCycle = swingCycle;
-        currentAction = swingAction;
+  if (keyPresses.f) {
+    counter = 0;
+    counter++;
+    if (counter > 4) {
+      return;
+    }
+    hasMoved = false;
+    keyPresses = {};
+    scale = swingScale;
+    width = swingWidth;
+    height = swingHeight;
+    currentCycle = swingCycle;
+    currentAction = swingAction;
+    currentLoopIndex = 0;
+    swing = true;
+
+  }
+
+  if (swing) {
+    frameCount++;
+    hasMoved = false;
+    if (frameCount >= frameLimit) {
+      frameCount = 0;
+
+      currentLoopIndex++;
+      if (currentLoopIndex >= swingCycle.length) {
         currentLoopIndex = 0;
-        swing = true;
-
+        swing = false;
+        width = walkWidth;
+        height = walkHeight;
+        currentAction = walkAction;
+      }
     }
-
-    if (swing) {
-        frameCount++;
-        hasMoved = false;
-        if (frameCount >= frameLimit) {
-            frameCount = 0;
-
-            currentLoopIndex++;
-            if (currentLoopIndex >= swingCycle.length) {
-                currentLoopIndex = 0;
-                swing = false;
-                width = walkWidth;
-                height = walkHeight;
-                currentAction = walkAction;
-            }
-        }
-    }
+  }
 
 
   if (keyPresses.f) {
