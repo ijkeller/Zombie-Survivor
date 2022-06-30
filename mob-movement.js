@@ -80,13 +80,28 @@
       zombieYlocation +=zombieMoveSpeed;
     }
 
-    if(xDifference > yDifference)
+    if(Math.abs(xDifference) > Math.abs(yDifference))
     {
-      if(xDifference > 0)
+      if(xDifference < 0)
       {
         zombieCurrentDirection = zombieLeft;
       }
+      else {
+        zombieCurrentDirection = zombieRight;
+      }
     }
+    else
+    {
+      if(yDifference < 0)
+      {
+        zombieCurrentDirection = zombieUp;
+      }
+      else {
+        zombieCurrentDirection = zombieDown;
+      }
+    }
+    console.log('X difference = ' + xDifference);
+    console.log('Y difference = ' + yDifference);
   }
   let frameCount = 0;
 
