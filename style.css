@@ -1,23 +1,34 @@
 * {
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     /* border: 1px solid black; */
     list-style: none;
     text-align: center;
     text-justify: center;
     max-height: fit-content;
     margin: 5%;
-  }
-  
-  body {
+}
+
+body {
     width: 99vw;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
     display: grid;
     justify-content: center;
     margin: 0;
-  }
-  
-  
-  canvas {
+}
+
+.canvas-container {
+    position: relative;
     border: 1px solid black;
-  }
+    width: 600px;
+    height: 400px;
+    margin: 0px;
+    padding: 0px;
+}
+
+canvas {
+    position: absolute; top:0px; left: 0px;
+    /* border: 1px solid red; */
+    margin: 0px;
+    padding: 0px;
+}

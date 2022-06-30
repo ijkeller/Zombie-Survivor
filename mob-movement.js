@@ -16,7 +16,7 @@
         zombieInit();
     }
 
-    let canvas = document.querySelector('canvas');
+    let canvas = document.getElementById('bottom');
     let ctx = canvas.getContext('2d');
 
     let zombieScale = 1;
@@ -34,7 +34,7 @@
     let zombieXlocation = 200;
     let zombieYlocation = 35;
 
-    const zombieCycleLoop = [0, 1, 0, 2]
+    const zombieCycleLoop = [ 0, 1, 0, 2]
     let zombieCurrentLoopIndex = 0;
 
     let zombieDown = 0;
@@ -87,13 +87,14 @@
 
     function step() {
         frameCount++;
-        getPlayer();
-        if (frameCount < 25) {
+        // getPlayer();
+        if (frameCount < 24) {
             window.requestAnimationFrame(step);
             return;
         }
+        zombieXlocation -= moveSpeed;
         frameCount = 0;
-        ctx.clearRect(0, 0, canvas.length, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
             zombieCurrentLoopIndex = 0;
