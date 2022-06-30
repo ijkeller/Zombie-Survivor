@@ -20,6 +20,8 @@ body {
 .canvas-container {
     position: relative;
     border: 1px solid black;
+    background-color: green;
+    box-shadow: inset 2px 2px rgba(0, 0, 0, .2);
     width: 600px;
     height: 400px;
     margin: 0px;
@@ -27,7 +29,9 @@ body {
 }
 
 canvas {
-    position: absolute; top:0px; left: 0px;
+    position: absolute; 
+    top:0px; 
+    left: 0px;
     /* border: 1px solid red; */
     margin: 0px;
     padding: 0px;
