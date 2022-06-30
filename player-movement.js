@@ -78,7 +78,6 @@ function keyUpListener(event) {
 }
 
 function gameLoop() {
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (swing) {
         ctx.clearRect(xPosition - 96, yPosition - 96, width, height);
