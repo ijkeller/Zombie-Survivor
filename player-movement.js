@@ -21,9 +21,6 @@ let scale = walkScale;
 let width = walkWidth;
 let height = walkHeight;
 
-// let scaledWidth = scale * width;
-// let scaledHeight = scale * height;
-
 let moveSpeed = 1;
 let xPosition = 32;
 let yPosition = 32;
@@ -32,29 +29,27 @@ let currentLoopIndex = 0;
 let frameCount = 0;
 let frameLimit = 10;
 
-let walkUp = 8;
-let walkLeft = 9;
-let walkDown = 10;
-let walkRight = 11;
 let walkCycle = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-let swingUp = 8;
-let swingLeft = 8;
-let swingDown = 9;
-let swingRight = 10;
+let up = 7;
+let left = 8;
+let down = 9;
+let right = 10;
 let swingCycle = [0, 1, 2, 3, 4, 5];
 let swing = false;
 
+let walkAction = 1;
+let swingAction  = 0;
+
 let currentCycle = walkCycle;
-let currentDirection = walkRight;
+let currentDirection = right;
+let currentAction = walkAction;
 
 function drawFrame(frameX, frameY, canvasX, canvasY) {
-    // console.log(`x = ${xPosition}, y = ${yPosition}`)
     if (swing) {
         ctx.drawImage(img,
             frameX * width, frameY * height, width, height,
             canvasX - 96, canvasY - 96, scale * width, scale * height);
-        // console.log('drawImage');
     } else {
         ctx.drawImage(img,
             frameX * width, frameY * height, width, height,
@@ -66,13 +61,11 @@ let keyPresses = {};
 
 window.addEventListener('keydown', keyDownListener, false);
 function keyDownListener(event) {
-    // event.preventDefault;
     keyPresses[event.key] = true;
 }
 
 window.addEventListener('keyup', keyUpListener, true);
 function keyUpListener(event) {
-    // event.preventDefault;
     keyPresses[event.key] = false;
 }
 
@@ -87,26 +80,14 @@ function gameLoop() {
         width = swingWidth;
         height = swingHeight;
         currentCycle = swingCycle;
+        currentAction = swingAction;
         currentLoopIndex = 0;
         swing = true;
-        if (currentDirection == walkUp) {
-            currentDirection = swingUp;
-            console.log(currentDirection)
-        } else if (currentDirection == walkLeft) {
-            currentDirection = swingLeft;
-        } else if (currentDirection == walkDown) {
-            currentDirection = swingDown;
-        } else {
-            currentDirection = swingRight;
-        }
     }
 
     if (swing) {
         frameCount++;
         hasMoved = false;
-        // console.log(currentDirection)
-        // console.log(frameCount)
-        // console.log(frameLimit)
         if (frameCount >= frameLimit) {
             frameCount = 0;
             currentLoopIndex++;
@@ -115,13 +96,14 @@ function gameLoop() {
                 swing = false;
                 width = walkWidth;
                 height = walkHeight;
+                currentAction = walkAction;
             }
         }
     }
 
     if (keyPresses.w) {
         yPosition -= moveSpeed;
-        currentDirection = walkUp;
+        currentDirection = up;
         scale = walkScale;
         width = walkWidth;
         height = walkHeight;
@@ -129,7 +111,7 @@ function gameLoop() {
         hasMoved = true;
     } else if (keyPresses.s) {
         yPosition += moveSpeed;
-        currentDirection = walkDown;
+        currentDirection = down;
         scale = walkScale;
         width = walkWidth;
         height = walkHeight;
@@ -137,14 +119,14 @@ function gameLoop() {
     }
     if (keyPresses.d) {
         xPosition += moveSpeed;
-        currentDirection = walkRight;
+        currentDirection = right;
         scale = walkScale;
         width = walkWidth;
         height = walkHeight;
         hasMoved = true;
     } else if (keyPresses.a) {
         xPosition -= moveSpeed;
-        currentDirection = walkLeft;
+        currentDirection = left;
         scale = walkScale;
         width = walkWidth;
         height = walkHeight;
@@ -162,7 +144,7 @@ function gameLoop() {
         }
     }
 
-    drawFrame(currentCycle[currentLoopIndex], currentDirection, xPosition, yPosition);
+    drawFrame(currentCycle[currentLoopIndex], currentDirection + currentAction, xPosition, yPosition);
 
     window.requestAnimationFrame(gameLoop);
 }
