@@ -65,6 +65,28 @@
     }
     let xDifference = adjustedX - zombieXlocation;
     let yDifference = adjustedY - zombieYlocation;
+    if(xDifference < 0)
+    {
+      zombieXlocation -= zombieMoveSpeed;
+    }
+    else{
+      zombieXlocation +=zombieMoveSpeed;
+    }
+    if(yDifference < 0)
+    {
+      zombieYlocation -= zombieMoveSpeed;
+    }
+    else{
+      zombieYlocation +=zombieMoveSpeed;
+    }
+
+    if(xDifference > yDifference)
+    {
+      if(xDifference > 0)
+      {
+        zombieCurrentDirection = zombieLeft;
+      }
+    }
   }
   let frameCount = 0;
 
@@ -80,7 +102,7 @@
 
     function step() {
       frameCount++;
-      // getPlayer();
+      getPlayer();
       if (frameCount < 24) {
         window.requestAnimationFrame(step);
         return;
