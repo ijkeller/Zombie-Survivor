@@ -67,12 +67,40 @@
       adjustedY = yPosition - 32;
     }
 
-    if (zombieXlocation <= adjustedX) {
-      zombieXlocation += zombieMoveSpeed;
-      zombieCurrentDirection = zombieRight;
-    } else {
-      zombieXlocation -= zombieMoveSpeed;
-      zombieCurrentDirection = zombieLeft;
+
+    let canvas = document.getElementById('bottom');
+    let ctx = canvas.getContext('2d');
+
+    let zombieScale = 1;
+
+    // zombies 1-6 w/h
+    let zombieWidth = 46;
+    let zombieHeight = 36;
+
+    // zombie 7 w/h
+    // let height = 64;
+    // let width = 64;
+
+    const zombieScaledWidth = zombieScale * zombieWidth;
+    const zombieScaledHeight = zombieScale * zombieHeight;
+    let zombieXlocation = 200;
+    let zombieYlocation = 35;
+
+    const zombieCycleLoop = [ 0, 1, 0, 2]
+    let zombieCurrentLoopIndex = 0;
+
+    let zombieDown = 0;
+    let zombieRight = 1;
+    let zombieUp = 2;
+    let zombieLeft = 3;
+    let zombieCurrentDirection = zombieLeft;
+    let zombieMoveSpeed = 1;
+
+    function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+        ctx.drawImage(zombieImg,
+            frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+            canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+
     }
 
     if (zombieYlocation <= adjustedY) {
@@ -92,11 +120,29 @@
       window.requestAnimationFrame(step);
       return;
     }
-    frameCount = 0;
-    ctx.clearRect(0, 0, canvas.length, canvas.height);
 
-    if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
-      zombieCurrentLoopIndex = 0;
+    let frameCount = 0;
+
+    function step() {
+        frameCount++;
+        // getPlayer();
+        if (frameCount < 24) {
+            window.requestAnimationFrame(step);
+            return;
+        }
+        zombieXlocation -= moveSpeed;
+        frameCount = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+            zombieCurrentLoopIndex = 0;
+        }
+
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+
+        window.requestAnimationFrame(step);
+
     }
 
     drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);

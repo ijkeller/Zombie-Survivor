@@ -6,7 +6,7 @@ img.onload = function () {
   window.requestAnimationFrame(gameLoop);
 };
 
-let canvas = document.querySelector('canvas');
+let canvas = document.getElementById('top');
 let ctx = canvas.getContext('2d');
 
 let walkScale = 1;
@@ -27,7 +27,7 @@ let yPosition = 32;
 
 let currentLoopIndex = 0;
 let frameCount = 0;
-let frameLimit = 10;
+let frameLimit = 12;
 
 let walkCycle = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -79,13 +79,51 @@ function keyUpListener(event) {
 
 function gameLoop() {
 
-  if (swing) {
-    ctx.clearRect(xPosition - 96, yPosition - 96, width, height);
-  } else {
-    ctx.clearRect(xPosition - 32, yPosition - 32, width, height);
-  }
 
-  let hasMoved = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // if (swing) {
+    //     ctx.clearRect(xPosition - 96, yPosition - 96, width, height);
+    // } else {
+    //     ctx.clearRect(xPosition - 32, yPosition - 32, width, height);
+    // }
+
+    let hasMoved = false;
+
+    if (keyPresses.f) {
+        counter = 0;
+        counter++;
+        if (counter > 4) {
+            return;
+        }
+        hasMoved = false;
+        keyPresses = {};
+        scale = swingScale;
+        width = swingWidth;
+        height = swingHeight;
+        currentCycle = swingCycle;
+        currentAction = swingAction;
+        currentLoopIndex = 0;
+        swing = true;
+
+    }
+
+    if (swing) {
+        frameCount++;
+        hasMoved = false;
+        if (frameCount >= frameLimit) {
+            frameCount = 0;
+
+            currentLoopIndex++;
+            if (currentLoopIndex >= swingCycle.length) {
+                currentLoopIndex = 0;
+                swing = false;
+                width = walkWidth;
+                height = walkHeight;
+                currentAction = walkAction;
+            }
+        }
+    }
+
 
   if (keyPresses.f) {
     counter = 0;
