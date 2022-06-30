@@ -42,7 +42,7 @@
   let zombieUp = 2;
   let zombieLeft = 3;
   let zombieCurrentDirection = zombieLeft;
-  let zombieMoveSpeed = 1;
+  let zombieMoveSpeed = 0.1;
 
   function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
     ctx.drawImage(zombieImg,
@@ -75,7 +75,7 @@
       zombieCurrentDirection = zombieLeft;
     }
 
-    if (zombieYlocation <= adjustedX) {
+    if (zombieYlocation <= adjustedY) {
       zombieYlocation += zombieMoveSpeed;
       zombieCurrentDirection = zombieDown;
     } else {
