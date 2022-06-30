@@ -121,7 +121,7 @@ function gameLoop() {
     }
   }
 
-  if (keyPresses.w) {
+  if (keyPresses.w && yPosition > 15) {
     yPosition -= moveSpeed;
     currentDirection = up;
     scale = walkScale;
@@ -129,7 +129,7 @@ function gameLoop() {
     height = walkHeight;
     currentCycle = walkCycle;
     hasMoved = true;
-  } else if (keyPresses.s) {
+  } else if (keyPresses.s && yPosition < canvas.offsetHeight - 35) {
     yPosition += moveSpeed;
     currentDirection = down;
     scale = walkScale;
@@ -137,14 +137,14 @@ function gameLoop() {
     height = walkHeight;
     hasMoved = true;
   }
-  if (keyPresses.d) {
+  if (keyPresses.d && xPosition < canvas.offsetWidth - 10) {
     xPosition += moveSpeed;
     currentDirection = right;
     scale = walkScale;
     width = walkWidth;
     height = walkHeight;
     hasMoved = true;
-  } else if (keyPresses.a) {
+  } else if (keyPresses.a && xPosition > 10) {
     xPosition -= moveSpeed;
     currentDirection = left;
     scale = walkScale;
