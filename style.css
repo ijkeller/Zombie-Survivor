@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+    list-style: none;
+    text-align: center;
+    text-justify: center;
+    max-height: fit-content;
+    margin: 5%;
+  }
+  
+  body {
+    width: 99vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: grid;
+    justify-content: center;
+    margin: 0;
+  }
+  
+  
+  canvas {
+    border: 1px solid black;
+  }
