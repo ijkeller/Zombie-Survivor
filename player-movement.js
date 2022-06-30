@@ -39,7 +39,7 @@ let swingCycle = [0, 1, 2, 3, 4, 5];
 let swing = false;
 
 let walkAction = 1;
-let swingAction  = 0;
+let swingAction = 0;
 
 let currentCycle = walkCycle;
 let currentDirection = right;
@@ -58,24 +58,44 @@ function drawFrame(frameX, frameY, canvasX, canvasY) {
 }
 
 let keyPresses = {};
+let counter = 0;
 
 window.addEventListener('keydown', keyDownListener, false);
 function keyDownListener(event) {
+    event.preventDefault;
     keyPresses[event.key] = true;
+    counter = 0;
+    counter++;
+    if (counter > 4) {
+        return;
+    }
 }
 
 window.addEventListener('keyup', keyUpListener, true);
 function keyUpListener(event) {
+    event.preventDefault;
     keyPresses[event.key] = false;
 }
 
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (swing) {
+        ctx.clearRect(xPosition - 96, yPosition - 96, width, height);
+    } else {
+        ctx.clearRect(xPosition - 32, yPosition - 32, width, height);
+    }
 
     let hasMoved = false;
 
     if (keyPresses.f) {
+        counter = 0;
+        counter++;
+        if (counter > 4) {
+            return;
+        }
         hasMoved = false;
+        keyPresses = {};
         scale = swingScale;
         width = swingWidth;
         height = swingHeight;
@@ -83,6 +103,7 @@ function gameLoop() {
         currentAction = swingAction;
         currentLoopIndex = 0;
         swing = true;
+
     }
 
     if (swing) {
