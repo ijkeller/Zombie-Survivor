@@ -20,6 +20,8 @@
   let ctx = canvas.getContext('2d');
 
   let zombieScale = 1;
+  let alive = true;
+  let score = 0;
 
   // zombies 1-6 w/h
   let zombieWidth = 46;
@@ -55,67 +57,68 @@
   }
 
   function getPlayer() {
-
-    let adjustedX = xPosition - 16;
-    let adjustedY = yPosition - 10;
-
-    if (swing) {
-      adjustedX = xPosition - 15;
-      adjustedY = yPosition - 0;
-    }
-    let xDifference = adjustedX - zombieXlocation;
-    let yDifference = adjustedY - zombieYlocation;
-    if (xDifference < 0) {
-      zombieXlocation -= zombieMoveSpeed;
-    }
-    else {
-      zombieXlocation += zombieMoveSpeed;
-    }
-    if (yDifference < 0) {
-      zombieYlocation -= zombieMoveSpeed;
-    }
-    else {
-      zombieYlocation += zombieMoveSpeed;
-    }
-
-    if (Math.abs(xDifference) > Math.abs(yDifference)) {
-      if (xDifference < 0) {
-        zombieCurrentDirection = zombieLeft;
-      }
-      else {
-        zombieCurrentDirection = zombieRight;
-      }
-    }
-    else {
-      if (yDifference < 0) {
-        zombieCurrentDirection = zombieUp;
-      }
-      else {
-        zombieCurrentDirection = zombieDown;
-      }
-    }
-    if(detectCollisionRectangles(adjustedX,adjustedY,16,32,zombieXlocation,zombieYlocation,36, 26))
+    if(alive)
     {
-      console.log('ahhh youve been eaten');
-    }
-    if (currentDirection === right && swing) {
-      if (detectCollisionRectangles(xPosition+16, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
       }
-    }
-    if (currentDirection === left && swing) {
-      if (detectCollisionRectangles(xPosition-64, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
       }
-    }
-    if (currentDirection === down && swing) {
-      if (detectCollisionRectangles(xPosition, yPosition+16, 32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      else {
+        zombieXlocation += zombieMoveSpeed;
       }
-    }
-    if (currentDirection === up && swing) {
-      if (detectCollisionRectangles(xPosition, yPosition-32,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
       }
     }
   }
@@ -145,9 +148,14 @@
       if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
         zombieCurrentLoopIndex = 0;
       }
-
-      drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
-      zombieCurrentLoopIndex++;
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
 
       window.requestAnimationFrame(step);
 
@@ -158,7 +166,6 @@
 
     window.requestAnimationFrame(step);
   }
-
 })();
 function detectCollisionRectangles(x1Position, y1Position, width1, height1, x2Position, y2Position, width2, height2) {
 
