@@ -5,7 +5,7 @@
     text-align: center;
     text-justify: center;
     max-height: fit-content;
-    margin: 5%;
+    /* margin: 5%; */
 }
 
 body {
@@ -20,8 +20,8 @@ body {
 .canvas-container {
     position: relative;
     border: 1px solid black;
-    width: 600px;
-    height: 400px;
+    width: 900px;
+    height: 500px;
     margin: 0px;
     padding: 0px;
     background-color: rgb(72, 145, 0);

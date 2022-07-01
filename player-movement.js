@@ -1,5 +1,9 @@
 'use strict';
 
+function randomGen(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
+}
+
 let img = new Image();
 img.src = './assets/generated1.png';
 img.onload = function () {

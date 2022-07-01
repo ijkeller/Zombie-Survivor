@@ -20,6 +20,8 @@
   let ctx = canvas.getContext('2d');
 
   let zombieScale = 1;
+  let alive = true;
+  let score = 0;
 
   // zombies 1-6 w/h
   let zombieWidth = 46;
@@ -31,8 +33,8 @@
 
   const zombieScaledWidth = zombieScale * zombieWidth;
   const zombieScaledHeight = zombieScale * zombieHeight;
-  let zombieXlocation = 200;
-  let zombieYlocation = 205;
+  let zombieXlocation = 600;
+  let zombieYlocation = 5;
 
   const zombieCycleLoop = [0, 1, 0, 2];
   let zombieCurrentLoopIndex = 0;
@@ -55,67 +57,68 @@
   }
 
   function getPlayer() {
-
-    let adjustedX = xPosition - 16;
-    let adjustedY = yPosition - 10;
-
-    if (swing) {
-      adjustedX = xPosition - 15;
-      adjustedY = yPosition - 0;
-    }
-    let xDifference = adjustedX - zombieXlocation;
-    let yDifference = adjustedY - zombieYlocation;
-    if (xDifference < 0) {
-      zombieXlocation -= zombieMoveSpeed;
-    }
-    else {
-      zombieXlocation += zombieMoveSpeed;
-    }
-    if (yDifference < 0) {
-      zombieYlocation -= zombieMoveSpeed;
-    }
-    else {
-      zombieYlocation += zombieMoveSpeed;
-    }
-
-    if (Math.abs(xDifference) > Math.abs(yDifference)) {
-      if (xDifference < 0) {
-        zombieCurrentDirection = zombieLeft;
-      }
-      else {
-        zombieCurrentDirection = zombieRight;
-      }
-    }
-    else {
-      if (yDifference < 0) {
-        zombieCurrentDirection = zombieUp;
-      }
-      else {
-        zombieCurrentDirection = zombieDown;
-      }
-    }
-    if(detectCollisionRectangles(adjustedX,adjustedY,16,32,zombieXlocation,zombieYlocation,36, 26))
+    if(alive)
     {
-      console.log('ahhh youve been eaten');
-    }
-    if (currentDirection === right && swing) {
-      if (detectCollisionRectangles(xPosition+16, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
       }
-    }
-    if (currentDirection === left && swing) {
-      if (detectCollisionRectangles(xPosition-64, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
       }
-    }
-    if (currentDirection === down && swing) {
-      if (detectCollisionRectangles(xPosition, yPosition+16, 32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      else {
+        zombieXlocation += zombieMoveSpeed;
       }
-    }
-    if (currentDirection === up && swing) {
-      if (detectCollisionRectangles(xPosition, yPosition-32,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
-        console.log('You Hit the zombie!');
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
       }
     }
   }
@@ -145,9 +148,14 @@
       if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
         zombieCurrentLoopIndex = 0;
       }
-
-      drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
-      zombieCurrentLoopIndex++;
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
 
       window.requestAnimationFrame(step);
 
@@ -158,7 +166,6 @@
 
     window.requestAnimationFrame(step);
   }
-
 })();
 function detectCollisionRectangles(x1Position, y1Position, width1, height1, x2Position, y2Position, width2, height2) {
 
@@ -179,3 +186,1011 @@ function detectCollisionCircleAndRectangle(circleX, circleY, circleR, rectangleX
   }
   return false;
 }
+
+(function () {
+
+  let zombie1 = './assets/Zombies/zombie1.png';
+  let zombie2 = './assets/Zombies/zombie2.png';
+  let zombie3 = './assets/Zombies/zombie3.png';
+  let zombie4 = './assets/Zombies/zombie4.png';
+  let zombie5 = './assets/Zombies/zombie5.png';
+  let zombie6 = './assets/Zombies/zombie6.png';
+  // let zombie7 = './assets/Zombies/zombie7.png'
+
+  let zombieImg = new Image();
+  zombieImg.src = zombie2;
+  zombieImg.onload = function () {
+    zombieInit();
+  };
+
+  let canvas = document.getElementById('middle2');
+  let ctx = canvas.getContext('2d');
+
+  let zombieScale = 1;
+  let alive = true;
+  let score = 0;
+
+  // zombies 1-6 w/h
+  let zombieWidth = 46;
+  let zombieHeight = 36;
+
+  // zombie 7 w/h
+  // let height = 64;
+  // let width = 64;
+
+  const zombieScaledWidth = zombieScale * zombieWidth;
+  const zombieScaledHeight = zombieScale * zombieHeight;
+  let zombieXlocation = 50;
+  let zombieYlocation = 450;
+
+  const zombieCycleLoop = [0, 1, 0, 2];
+  let zombieCurrentLoopIndex = 0;
+
+  let zombieDown = 0;
+  let zombieRight = 1;
+  let zombieUp = 2;
+  let zombieLeft = 3;
+  let zombieCurrentDirection = zombieLeft;
+  let zombieMoveSpeed = 0.1;
+
+  function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(zombieImg,
+      frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+      canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+  }
+
+  function zombieInit() {
+    window.requestAnimationFrame(step);
+  }
+
+  function getPlayer() {
+    if(alive)
+    {
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
+      }
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieXlocation += zombieMoveSpeed;
+      }
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+    }
+  }
+  let frameCount = 0;
+
+  function step() {
+    frameCount++;
+    getPlayer();
+    if (frameCount < 25) {
+      window.requestAnimationFrame(step);
+      return;
+    }
+
+    frameCount = 0;
+
+    function step() {
+      frameCount++;
+      getPlayer();
+      if (frameCount < 24) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+      zombieXlocation -= moveSpeed;
+      frameCount = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+        zombieCurrentLoopIndex = 0;
+      }
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
+
+      window.requestAnimationFrame(step);
+
+    }
+
+    drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+    zombieCurrentLoopIndex++;
+
+    window.requestAnimationFrame(step);
+  }
+})();
+
+(function () {
+
+  let zombie1 = './assets/Zombies/zombie1.png';
+  let zombie2 = './assets/Zombies/zombie2.png';
+  let zombie3 = './assets/Zombies/zombie3.png';
+  let zombie4 = './assets/Zombies/zombie4.png';
+  let zombie5 = './assets/Zombies/zombie5.png';
+  let zombie6 = './assets/Zombies/zombie6.png';
+  let zombie7 = './assets/Zombies/zombie7.png'
+
+  let zombieImg = new Image();
+  zombieImg.src = zombie7;
+  zombieImg.onload = function () {
+    zombieInit();
+  };
+
+  let canvas = document.getElementById('middle1');
+  let ctx = canvas.getContext('2d');
+
+  let zombieScale = 1;
+  let alive = true;
+  let score = 0;
+
+  // zombies 1-6 w/h
+  // let zombieWidth = 46;
+  // let zombieHeight = 36;
+
+  // zombie 7 w/h
+  let zombieHeight = 64;
+  let zombieWidth = 64;
+
+  const zombieScaledWidth = zombieScale * zombieWidth;
+  const zombieScaledHeight = zombieScale * zombieHeight;
+  let zombieXlocation = 700;
+  let zombieYlocation = 200;
+
+  const zombieCycleLoop = [0, 1, 0, 2];
+  let zombieCurrentLoopIndex = 0;
+
+  let zombieDown = 0;
+  let zombieRight = 1;
+  let zombieUp = 2;
+  let zombieLeft = 3;
+  let zombieCurrentDirection = zombieLeft;
+  let zombieMoveSpeed = 0.1;
+
+  function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(zombieImg,
+      frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+      canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+  }
+
+  function zombieInit() {
+    window.requestAnimationFrame(step);
+  }
+
+  function getPlayer() {
+    if(alive)
+    {
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
+      }
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieXlocation += zombieMoveSpeed;
+      }
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+    }
+  }
+  let frameCount = 0;
+
+  function step() {
+    frameCount++;
+    getPlayer();
+    if (frameCount < 25) {
+      window.requestAnimationFrame(step);
+      return;
+    }
+
+    frameCount = 0;
+
+    function step() {
+      frameCount++;
+      getPlayer();
+      if (frameCount < 24) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+      zombieXlocation -= moveSpeed;
+      frameCount = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+        zombieCurrentLoopIndex = 0;
+      }
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
+
+      window.requestAnimationFrame(step);
+
+    }
+
+    drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+    zombieCurrentLoopIndex++;
+
+    window.requestAnimationFrame(step);
+  }
+})();
+
+(function () {
+
+  let zombie1 = './assets/Zombies/zombie1.png';
+  let zombie2 = './assets/Zombies/zombie2.png';
+  let zombie3 = './assets/Zombies/zombie3.png';
+  let zombie4 = './assets/Zombies/zombie4.png';
+  let zombie5 = './assets/Zombies/zombie5.png';
+  let zombie6 = './assets/Zombies/zombie6.png';
+  let zombie7 = './assets/Zombies/zombie7.png'
+
+  let zombieImg = new Image();
+  zombieImg.src = zombie3;
+  zombieImg.onload = function () {
+    zombieInit();
+  };
+
+  let canvas = document.getElementById('middle3');
+  let ctx = canvas.getContext('2d');
+
+  let zombieScale = 1;
+  let alive = true;
+  let score = 0;
+
+  // zombies 1-6 w/h
+  let zombieWidth = 46;
+  let zombieHeight = 36;
+
+  // zombie 7 w/h
+  // let zombieHeight = 64;
+  // let zombieWidth = 64;
+
+  const zombieScaledWidth = zombieScale * zombieWidth;
+  const zombieScaledHeight = zombieScale * zombieHeight;
+  let zombieXlocation = 600;
+  let zombieYlocation = 300;
+
+  const zombieCycleLoop = [0, 1, 0, 2];
+  let zombieCurrentLoopIndex = 0;
+
+  let zombieDown = 0;
+  let zombieRight = 1;
+  let zombieUp = 2;
+  let zombieLeft = 3;
+  let zombieCurrentDirection = zombieLeft;
+  let zombieMoveSpeed = 0.1;
+
+  function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(zombieImg,
+      frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+      canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+  }
+
+  function zombieInit() {
+    window.requestAnimationFrame(step);
+  }
+
+  function getPlayer() {
+    if(alive)
+    {
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
+      }
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieXlocation += zombieMoveSpeed;
+      }
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+    }
+  }
+  let frameCount = 0;
+
+  function step() {
+    frameCount++;
+    getPlayer();
+    if (frameCount < 25) {
+      window.requestAnimationFrame(step);
+      return;
+    }
+
+    frameCount = 0;
+
+    function step() {
+      frameCount++;
+      getPlayer();
+      if (frameCount < 24) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+      zombieXlocation -= moveSpeed;
+      frameCount = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+        zombieCurrentLoopIndex = 0;
+      }
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
+
+      window.requestAnimationFrame(step);
+
+    }
+
+    drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+    zombieCurrentLoopIndex++;
+
+    window.requestAnimationFrame(step);
+  }
+})();
+
+(function () {
+
+  let zombie1 = './assets/Zombies/zombie1.png';
+  let zombie2 = './assets/Zombies/zombie2.png';
+  let zombie3 = './assets/Zombies/zombie3.png';
+  let zombie4 = './assets/Zombies/zombie4.png';
+  let zombie5 = './assets/Zombies/zombie5.png';
+  let zombie6 = './assets/Zombies/zombie6.png';
+  let zombie7 = './assets/Zombies/zombie7.png'
+
+  let zombieImg = new Image();
+  zombieImg.src = zombie4;
+  zombieImg.onload = function () {
+    zombieInit();
+  };
+
+  let canvas = document.getElementById('middle4');
+  let ctx = canvas.getContext('2d');
+
+  let zombieScale = 1;
+  let alive = true;
+  let score = 0;
+
+  // zombies 1-6 w/h
+  let zombieWidth = 46;
+  let zombieHeight = 36;
+
+  // zombie 7 w/h
+  // let zombieHeight = 64;
+  // let zombieWidth = 64;
+
+  const zombieScaledWidth = zombieScale * zombieWidth;
+  const zombieScaledHeight = zombieScale * zombieHeight;
+  let zombieXlocation = 150;
+  let zombieYlocation = 200;
+
+  const zombieCycleLoop = [0, 1, 0, 2];
+  let zombieCurrentLoopIndex = 0;
+
+  let zombieDown = 0;
+  let zombieRight = 1;
+  let zombieUp = 2;
+  let zombieLeft = 3;
+  let zombieCurrentDirection = zombieLeft;
+  let zombieMoveSpeed = 0.1;
+
+  function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(zombieImg,
+      frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+      canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+  }
+
+  function zombieInit() {
+    window.requestAnimationFrame(step);
+  }
+
+  function getPlayer() {
+    if(alive)
+    {
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
+      }
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieXlocation += zombieMoveSpeed;
+      }
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+    }
+  }
+  let frameCount = 0;
+
+  function step() {
+    frameCount++;
+    getPlayer();
+    if (frameCount < 25) {
+      window.requestAnimationFrame(step);
+      return;
+    }
+
+    frameCount = 0;
+
+    function step() {
+      frameCount++;
+      getPlayer();
+      if (frameCount < 24) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+      zombieXlocation -= moveSpeed;
+      frameCount = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+        zombieCurrentLoopIndex = 0;
+      }
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
+
+      window.requestAnimationFrame(step);
+
+    }
+
+    drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+    zombieCurrentLoopIndex++;
+
+    window.requestAnimationFrame(step);
+  }
+})();
+
+(function () {
+
+  let zombie1 = './assets/Zombies/zombie1.png';
+  let zombie2 = './assets/Zombies/zombie2.png';
+  let zombie3 = './assets/Zombies/zombie3.png';
+  let zombie4 = './assets/Zombies/zombie4.png';
+  let zombie5 = './assets/Zombies/zombie5.png';
+  let zombie6 = './assets/Zombies/zombie6.png';
+  let zombie7 = './assets/Zombies/zombie7.png'
+
+  let zombieImg = new Image();
+  zombieImg.src = zombie5;
+  zombieImg.onload = function () {
+    zombieInit();
+  };
+
+  let canvas = document.getElementById('middle5');
+  let ctx = canvas.getContext('2d');
+
+  let zombieScale = 1.1;
+  let alive = true;
+  let score = 0;
+
+  // zombies 1-6 w/h
+  let zombieWidth = 46;
+  let zombieHeight = 36;
+
+  // zombie 7 w/h
+  // let zombieHeight = 64;
+  // let zombieWidth = 64;
+
+  const zombieScaledWidth = zombieScale * zombieWidth;
+  const zombieScaledHeight = zombieScale * zombieHeight;
+  let zombieXlocation = 300;
+  let zombieYlocation = 275;
+
+  const zombieCycleLoop = [0, 1, 0, 2];
+  let zombieCurrentLoopIndex = 0;
+
+  let zombieDown = 0;
+  let zombieRight = 1;
+  let zombieUp = 2;
+  let zombieLeft = 3;
+  let zombieCurrentDirection = zombieLeft;
+  let zombieMoveSpeed = 0.1;
+
+  function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(zombieImg,
+      frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+      canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+  }
+
+  function zombieInit() {
+    window.requestAnimationFrame(step);
+  }
+
+  function getPlayer() {
+    if(alive)
+    {
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
+      }
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieXlocation += zombieMoveSpeed;
+      }
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+    }
+  }
+  let frameCount = 0;
+
+  function step() {
+    frameCount++;
+    getPlayer();
+    if (frameCount < 25) {
+      window.requestAnimationFrame(step);
+      return;
+    }
+
+    frameCount = 0;
+
+    function step() {
+      frameCount++;
+      getPlayer();
+      if (frameCount < 24) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+      zombieXlocation -= moveSpeed;
+      frameCount = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+        zombieCurrentLoopIndex = 0;
+      }
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
+
+      window.requestAnimationFrame(step);
+
+    }
+
+    drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+    zombieCurrentLoopIndex++;
+
+    window.requestAnimationFrame(step);
+  }
+})();
+
+(function () {
+
+  let zombie1 = './assets/Zombies/zombie1.png';
+  let zombie2 = './assets/Zombies/zombie2.png';
+  let zombie3 = './assets/Zombies/zombie3.png';
+  let zombie4 = './assets/Zombies/zombie4.png';
+  let zombie5 = './assets/Zombies/zombie5.png';
+  let zombie6 = './assets/Zombies/zombie6.png';
+  let zombie7 = './assets/Zombies/zombie7.png'
+
+  let zombieImg = new Image();
+  zombieImg.src = zombie6;
+  zombieImg.onload = function () {
+    zombieInit();
+  };
+
+  let canvas = document.getElementById('middle6');
+  let ctx = canvas.getContext('2d');
+
+  let zombieScale = 1;
+  let alive = true;
+  let score = 0;
+
+  // zombies 1-6 w/h
+  let zombieWidth = 46;
+  let zombieHeight = 36;
+
+  // zombie 7 w/h
+  // let zombieHeight = 64;
+  // let zombieWidth = 64;
+
+  const zombieScaledWidth = zombieScale * zombieWidth;
+  const zombieScaledHeight = zombieScale * zombieHeight;
+  let zombieXlocation = 450;
+  let zombieYlocation = 450;
+
+  const zombieCycleLoop = [0, 1, 0, 2];
+  let zombieCurrentLoopIndex = 0;
+
+  let zombieDown = 0;
+  let zombieRight = 1;
+  let zombieUp = 2;
+  let zombieLeft = 3;
+  let zombieCurrentDirection = zombieLeft;
+  let zombieMoveSpeed = 0.1;
+
+  function drawZombieFrame(frameX, frameY, canvasX, canvasY) {
+    ctx.drawImage(zombieImg,
+      frameX * zombieWidth, frameY * zombieHeight, zombieWidth, zombieHeight,
+      canvasX, canvasY, zombieScaledWidth, zombieScaledHeight);
+  }
+
+  function zombieInit() {
+    window.requestAnimationFrame(step);
+  }
+
+  function getPlayer() {
+    if(alive)
+    {
+      let adjustedX = xPosition - 16;
+      let adjustedY = yPosition - 10;
+
+      if (swing) {
+        adjustedX = xPosition - 15;
+        adjustedY = yPosition - 0;
+      }
+      let xDifference = adjustedX - zombieXlocation;
+      let yDifference = adjustedY - zombieYlocation;
+      if (xDifference < 0) {
+        zombieXlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieXlocation += zombieMoveSpeed;
+      }
+      if (yDifference < 0) {
+        zombieYlocation -= zombieMoveSpeed;
+      }
+      else {
+        zombieYlocation += zombieMoveSpeed;
+      }
+
+      if (Math.abs(xDifference) > Math.abs(yDifference)) {
+        if (xDifference < 0) {
+          zombieCurrentDirection = zombieLeft;
+        }
+        else {
+          zombieCurrentDirection = zombieRight;
+        }
+      }
+      else {
+        if (yDifference < 0) {
+          zombieCurrentDirection = zombieUp;
+        }
+        else {
+          zombieCurrentDirection = zombieDown;
+        }
+      }
+      if (detectCollisionRectangles(adjustedX, adjustedY, 16, 32, zombieXlocation, zombieYlocation, 36, 26)) {
+        console.log('ahhh youve been eaten');
+      }
+      if (currentDirection === right && swing) {
+        if (detectCollisionRectangles(xPosition + 16, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === left && swing) {
+        if (detectCollisionRectangles(xPosition - 64, yPosition, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === down && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition + 16, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+      if (currentDirection === up && swing) {
+        if (detectCollisionRectangles(xPosition, yPosition - 32, 32, 32, zombieXlocation, zombieYlocation, 46, 36)) {
+          alive = false;
+        }
+      }
+    }
+  }
+  let frameCount = 0;
+
+  function step() {
+    frameCount++;
+    getPlayer();
+    if (frameCount < 25) {
+      window.requestAnimationFrame(step);
+      return;
+    }
+
+    frameCount = 0;
+
+    function step() {
+      frameCount++;
+      getPlayer();
+      if (frameCount < 24) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+      zombieXlocation -= moveSpeed;
+      frameCount = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (zombieCurrentLoopIndex >= zombieCycleLoop.length) {
+        zombieCurrentLoopIndex = 0;
+      }
+      if (alive) {
+        drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+        zombieCurrentLoopIndex++;
+      }
+      else
+      {
+        score++;
+      }
+
+      window.requestAnimationFrame(step);
+
+    }
+
+    drawZombieFrame(zombieCycleLoop[zombieCurrentLoopIndex], zombieCurrentDirection, zombieXlocation, zombieYlocation);
+    zombieCurrentLoopIndex++;
+
+    window.requestAnimationFrame(step);
+  }
+})();
