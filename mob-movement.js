@@ -104,17 +104,17 @@
       }
     }
     if (currentDirection === left && swing) {
-      if (detectCollisionRectangles(xPosition-46, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+      if (detectCollisionRectangles(xPosition-64, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
         console.log('You Hit the zombie!');
       }
     }
     if (currentDirection === down && swing) {
-      if (detectCollisionRectangles(xPosition, yPosition+10, 32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+      if (detectCollisionRectangles(xPosition, yPosition+16, 32,32, zombieXlocation, zombieYlocation, 46, 36)) {
         console.log('You Hit the zombie!');
       }
     }
     if (currentDirection === up && swing) {
-      if (detectCollisionRectangles(xPosition, yPosition-16,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+      if (detectCollisionRectangles(xPosition, yPosition-32,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
         console.log('You Hit the zombie!');
       }
     }
