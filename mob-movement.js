@@ -32,7 +32,7 @@
   const zombieScaledWidth = zombieScale * zombieWidth;
   const zombieScaledHeight = zombieScale * zombieHeight;
   let zombieXlocation = 200;
-  let zombieYlocation = 35;
+  let zombieYlocation = 205;
 
   const zombieCycleLoop = [0, 1, 0, 2];
   let zombieCurrentLoopIndex = 0;
@@ -57,34 +57,65 @@
   function getPlayer() {
 
     let adjustedX = xPosition - 16;
-    let adjustedY = yPosition - 16;
+    let adjustedY = yPosition - 10;
 
     if (swing) {
-      adjustedX = xPosition - 48;
-      adjustedY = yPosition - 48;
+      adjustedX = xPosition - 15;
+      adjustedY = yPosition - 0;
     }
     let xDifference = adjustedX - zombieXlocation;
     let yDifference = adjustedY - zombieYlocation;
-    if(xDifference < 0)
-    {
+    if (xDifference < 0) {
       zombieXlocation -= zombieMoveSpeed;
     }
-    else{
-      zombieXlocation +=zombieMoveSpeed;
+    else {
+      zombieXlocation += zombieMoveSpeed;
     }
-    if(yDifference < 0)
-    {
+    if (yDifference < 0) {
       zombieYlocation -= zombieMoveSpeed;
     }
-    else{
-      zombieYlocation +=zombieMoveSpeed;
+    else {
+      zombieYlocation += zombieMoveSpeed;
     }
 
-    if(xDifference > yDifference)
-    {
-      if(xDifference > 0)
-      {
+    if (Math.abs(xDifference) > Math.abs(yDifference)) {
+      if (xDifference < 0) {
         zombieCurrentDirection = zombieLeft;
+      }
+      else {
+        zombieCurrentDirection = zombieRight;
+      }
+    }
+    else {
+      if (yDifference < 0) {
+        zombieCurrentDirection = zombieUp;
+      }
+      else {
+        zombieCurrentDirection = zombieDown;
+      }
+    }
+    if(detectCollisionRectangles(adjustedX,adjustedY,16,32,zombieXlocation,zombieYlocation,36, 26))
+    {
+      console.log('ahhh youve been eaten');
+    }
+    if (currentDirection === right && swing) {
+      if (detectCollisionRectangles(xPosition+16, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+        console.log('You Hit the zombie!');
+      }
+    }
+    if (currentDirection === left && swing) {
+      if (detectCollisionRectangles(xPosition-64, yPosition,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+        console.log('You Hit the zombie!');
+      }
+    }
+    if (currentDirection === down && swing) {
+      if (detectCollisionRectangles(xPosition, yPosition+16, 32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+        console.log('You Hit the zombie!');
+      }
+    }
+    if (currentDirection === up && swing) {
+      if (detectCollisionRectangles(xPosition, yPosition-32,32,32, zombieXlocation, zombieYlocation, 46, 36)) {
+        console.log('You Hit the zombie!');
       }
     }
   }
@@ -129,3 +160,22 @@
   }
 
 })();
+function detectCollisionRectangles(x1Position, y1Position, width1, height1, x2Position, y2Position, width2, height2) {
+
+  if (x1Position + width1 / 2 >= x2Position - width2 / 2 && x1Position - width1 / 2 <= x2Position + width2 / 2) {
+    if (y1Position + height1 / 2 >= y2Position - height2 / 2 && y1Position - width1 / 2 <= y2Position + height2 / 2) {
+      return true;
+    }
+  }
+
+  return false;
+}
+function detectCollisionCircleAndRectangle(circleX, circleY, circleR, rectangleX, rectangleY, rectangleWidth, rectangleHeight) {
+  let nearestX1 = Math.max((rectangleX - rectangleWidth / 2), Math.min(circleX, rectangleX + rectangleWidth / 2));
+  let nearestY1 = Math.max((rectangleY - rectangleHeight / 2), Math.min(circleY, rectangleY + rectangleHeight / 2));
+  let closestDistance1 = Math.sqrt(Math.pow((nearestX1 - circleX), 2) + Math.pow((nearestY1 - circleY), 2), 2);
+  if (closestDistance1 <= circleR) {
+    return true;
+  }
+  return false;
+}
